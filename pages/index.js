@@ -8,8 +8,8 @@ const Home = ({ slugs }) => (
     {slugs.map(slug => {
       return (
         <div key={slug}>
-          <Link href={slug}>
-            <a>{slug}</a>
+          <Link href={"/blog/" + slug}>
+            <a>{"blog/" + slug}</a>
           </Link>
         </div>
       );

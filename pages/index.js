@@ -1,5 +1,6 @@
 import Link from "next/link";
 import fs from "fs";
+import React from "react";
 
 const Home = ({ slugs }) => (
   <div>
@@ -7,8 +8,8 @@ const Home = ({ slugs }) => (
     {slugs.map(slug => {
       return (
         <div key={slug}>
-          <Link href={"/blog/" + slug}>
-            <a>{"/blog/" + slug}</a>
+          <Link href={slug}>
+            <a>{slug}</a>
           </Link>
         </div>
       );

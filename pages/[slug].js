@@ -1,13 +1,22 @@
 import React from "react";
 import fs from "fs";
 import path from "path";
+import matter from "gray-matter";
+import Head from "next/head";
 
-const Post = ({ contents }) => {
+
+const Post = ({ contents, data }) => {
     return (
-        <div>
-            <div>Contents Below</div>
-            <pre>{contents}</pre>
-        </div>
+        <>
+            <Head>
+                <title>{data.title}</title>
+                <meta title="description" content={data.description} />
+            </Head>
+            <div>
+                <div>Contents Below</div>
+                <pre>{contents}</pre>
+            </div>
+        </>
     );
 };
 
@@ -29,12 +38,17 @@ export const getStaticPaths = async () => {
 };
 
 export const getStaticProps = async ({ params: { slug } }) => {
-  // convert buffer to string and join for any OS
-    const contents = fs.readFileSync(path.join("posts", slug + ".md")).toString();
+    // convert buffer to string and join for any OS
+    const markdownWithMetadata = fs
+        .readFileSync(path.join("posts", slug + ".md"))
+        .toString();
+
+    const parsedMarkdown = matter(markdownWithMetadata);
 
     return {
         props: {
-            contents,
+            contents: parsedMarkdown.content,
+            data: parsedMarkdown.data,
         },
     };
 };
